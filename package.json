@@ -1,12 +1,13 @@
 {
-  "name": "babbys-first-wc",
+  "name": "playing-with-parcel",
   "version": "1.0.0",
-  "main": "parcel src/index.html --no-cache",
+  "scripts": {
+    "start": "parcel src/index.html"
+  },
   "license": "MIT",
   "dependencies": {
     "@types/react": "^16.3.14",
     "@types/react-dom": "^16.0.5",
-    "antd": "^3.5.3",
     "babel-cli": "^6.26.0",
     "babel-plugin-import": "^1.7.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
