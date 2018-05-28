@@ -2,7 +2,7 @@
 
 ## Setup
 
-```
+```bash
 git clone git@github.com:annarankin/playing-with-parcel.git
 cd playing-with-parcel
 yarn
@@ -10,6 +10,6 @@ yarn
 
 ## Start
 
-```
+```bash
 yarn start
 ```
