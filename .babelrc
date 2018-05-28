@@ -1,0 +1,13 @@
+{
+  "presets": [
+    "env",
+    "react",
+    "es2017"
+  ],
+  "plugins": [
+    [
+      "transform-class-properties",
+      "import", { "libraryName": "antd", "style": true }
+    ]
+  ]
+}
