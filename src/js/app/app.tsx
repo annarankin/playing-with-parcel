@@ -1,8 +1,12 @@
 import * as React from 'react'
-import { Canvas } from '../canvas_things'
+import { PixelCanvas } from '../canvas'
+import './controller.scss'
+import './app.scss'
 
 const Controller = ({ setNumSquares }) => (
-  <input type="number" onChange={setNumSquares} defaultValue='4' />
+  <div className="controller-panel">
+    <input type="number" onChange={setNumSquares} defaultValue='4' />
+  </div>
 )
 
 class App extends React.Component {
@@ -16,11 +20,10 @@ class App extends React.Component {
   render() {
     return(
       <div id="app">
-        <Controller setNumSquares={this.setNumSquares} />
-        <br/>
-        <Canvas numSquares={this.state.numSquares} width={300} height={300}>
+        <PixelCanvas numSquares={this.state.numSquares} width={300} height={300}>
           <span />
-        </Canvas>
+        </PixelCanvas>
+        <Controller setNumSquares={this.setNumSquares} />
       </div>
     )
   }
