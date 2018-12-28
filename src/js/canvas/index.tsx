@@ -8,7 +8,15 @@ type Pixel = {
   color: string
 }
 
-export class PixelCanvas extends React.Component {
+interface PixelProps {
+  pixels?: Array<Pixel>,
+  gutter?: number,
+  height: number,
+  width: number,
+  numSquares: number,
+}
+
+export class PixelCanvas extends React.Component<PixelProps, { pixels: Pixel[]}> {
   private canvas: React.RefObject<HTMLCanvasElement>
   state = {
     pixels: []
@@ -17,14 +25,6 @@ export class PixelCanvas extends React.Component {
   refs: {
     [key: string]: (Element);
     canvas: (HTMLCanvasElement);
-  }
-
-  props: {
-    pixels?: Array<Pixel>,
-    gutter?: number,
-    height: number,
-    width: number,
-    numSquares: number,
   }
 
   static defaultProps = {
@@ -37,7 +37,6 @@ export class PixelCanvas extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     this.matrix().forEach((row, y) => row.forEach((color, x) => {
       this.drawPixel(color, x, y)
     }))
@@ -81,12 +80,29 @@ export class PixelCanvas extends React.Component {
     return this.canvas.current.getContext('2d')
   }
 
-  onCanvasClick = (event: React.SyntheticEvent<HTMLCanvasElement>) => {
+  getCoordsFromClick(event: MouseEvent) {
     const size = this.pixelSize() + 1
-    const x = Math.floor(event.nativeEvent.offsetX / size)
-    const y = Math.floor(event.nativeEvent.offsetY / size)
-    const pixel: Pixel = { x, y, color: 'red' }
-    this.setState((prevState, props) => ({ ...prevState, pixels: [...prevState.pixels, pixel] }))
+    const x = Math.floor(event.offsetX / size)
+    const y = Math.floor(event.offsetY / size)
+    return({ x, y })
+  }
+
+  fillPixel = (x: number, y: number, color: string) => {
+    const pixel: Pixel = { x, y, color }
+    const existingPixel = this.state.pixels.find(p => p.x === x && p.y === y)
+    if (existingPixel) { return }
+    this.setState((prevState) => ({ ...prevState, pixels: [...prevState.pixels, pixel] }))
+  }
+
+  onCanvasClick = (event: React.SyntheticEvent<HTMLCanvasElement>) => {
+    const { x, y } = this.getCoordsFromClick(event.nativeEvent as MouseEvent)
+    this.fillPixel(x, y, '#333')
+  }
+
+  onMouseMove = (event: React.SyntheticEvent<HTMLCanvasElement>) => {
+    if (event.nativeEvent.buttons !== 1) { return }
+    const { x, y } = this.getCoordsFromClick(event.nativeEvent as MouseEvent)
+    this.fillPixel(x, y, '#333')
   }
 
   render() {
@@ -99,6 +115,7 @@ export class PixelCanvas extends React.Component {
           width={width}
           height={height}
           onClick={this.onCanvasClick}
+          onMouseMove={this.onMouseMove}
         />
       </div>
     )
