@@ -82,7 +82,7 @@ export class PixelCanvas extends React.Component {
   }
 
   onCanvasClick = (event: React.SyntheticEvent<HTMLCanvasElement>) => {
-    const size = this.pixelSize()
+    const size = this.pixelSize() + 1
     const x = Math.floor(event.nativeEvent.offsetX / size)
     const y = Math.floor(event.nativeEvent.offsetY / size)
     const pixel: Pixel = { x, y, color: 'red' }
